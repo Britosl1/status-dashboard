@@ -26,7 +26,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - **UI** — shadcn/ui + Radix on **Tailwind CSS v4**; shared primitives in `src/components/ui`, app shell in `src/components/common`.
 
 ## Improvements
--Use Jest for testing
--Implement pagination for Status (if it returns more data)
--Improve layout overall
--Add navigation
+- Use Jest for testing
+- Implement pagination for Status (if it returns more data)
+- Improve layout overall
+- Add navigation
