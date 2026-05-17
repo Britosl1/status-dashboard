@@ -3,22 +3,22 @@
 import { useEffect, useState } from "react";
 import { StatusCard } from "../StatusCard";
 import { IDashboardService } from "../../entities";
-import { StatusCardSkeleton } from "../StatusCardSkeleton";
 import { EmptyState } from "../EmptyState";
 import { toast } from "sonner";
+import { getStatusService } from "../../services";
+import { StatusFilterInput } from "../StatusFilterInput";
+import { StatusCardSkeletonGrid } from "../StatusCardSkeletonGrid";
 
 export function StatusGrid() {
   const [services, setServices] = useState<IDashboardService[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
-  const fetchServices = async () => {
+  const [searchStatus, setSearchStatus] = useState<string>("");
+
+  const fetchData = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api");
-      const data = await res.json();
+      const data = await getStatusService();
       setServices(data);
-      console.log(data);
-      
     } catch (error) {
       console.error(error);
       toast.error("Error fetching services", { position: "bottom-right" });
@@ -27,18 +27,16 @@ export function StatusGrid() {
     }
   };
 
+  const filteredStatus = services.filter((service) =>
+    service.status.toLowerCase().includes(searchStatus.toLowerCase()),
+  );
+
   useEffect(() => {
-    fetchServices();
+    fetchData();
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="w-full p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Array.from({ length: 6 }).map((_, index) => (
-          <StatusCardSkeleton key={index} />
-        ))}
-      </div>
-    );
+    return <StatusCardSkeletonGrid />;
   }
 
   if (!isLoading && services.length === 0) {
@@ -50,10 +48,27 @@ export function StatusGrid() {
   }
 
   return (
-    <div className="w-full p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {services.map((service) => (
-        <StatusCard key={service.id} service={service} />
-      ))}
+    <div className="w-full p-4 flex flex-col gap-4">
+      <StatusFilterInput
+        searchStatus={searchStatus}
+        setSearchStatus={setSearchStatus}
+      />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {filteredStatus.length > 0 &&
+          filteredStatus.map((service) => (
+            <StatusCard key={service.id} service={service} />
+          ))}
+      </div>
+      {filteredStatus.length === 0 && (
+        <div className="flex items-center justify-center h-full">
+          <EmptyState
+            className="w-full h-full"
+            title="No results found"
+            description="Try searching for a different status"
+          />
+        </div>
+      )}
     </div>
   );
 }

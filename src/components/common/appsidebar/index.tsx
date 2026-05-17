@@ -11,20 +11,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  LayoutDashboard,
-  Activity,
-  Settings,
-  ShieldCheck,
-  HelpCircle,
-} from "lucide-react";
+import { LayoutDashboard, Activity, HelpCircle } from "lucide-react";
 import Link from "next/link";
 
 const navigationItems = [
-  { title: "Dashboard", url: "#", icon: LayoutDashboard },
-  { title: "Services Status", url: "#", icon: Activity },
-  { title: "Security", url: "#", icon: ShieldCheck },
-  { title: "Settings", url: "#", icon: Settings },
+  { title: "Dashboard (Mock)", url: "#", icon: LayoutDashboard },
+  { title: "Services Status (Mock)", url: "#", icon: Activity },
 ];
 
 export function AppSidebar() {
