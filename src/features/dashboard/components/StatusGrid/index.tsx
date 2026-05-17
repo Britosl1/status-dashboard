@@ -5,6 +5,7 @@ import { StatusCard } from "../StatusCard";
 import { IDashboardService } from "../../entities";
 import { StatusCardSkeleton } from "../StatusCardSkeleton";
 import { EmptyState } from "../EmptyState";
+import { toast } from "sonner";
 
 export function StatusGrid() {
   const [services, setServices] = useState<IDashboardService[]>([]);
@@ -14,13 +15,13 @@ export function StatusGrid() {
     setIsLoading(true);
     try {
       const res = await fetch("/api");
-      console.log(res);
       const data = await res.json();
       setServices(data);
       console.log(data);
       
     } catch (error) {
       console.error(error);
+      toast.error("Error fetching services", { position: "bottom-right" });
     } finally {
       setIsLoading(false);
     }
@@ -40,7 +41,7 @@ export function StatusGrid() {
     );
   }
 
-  if (services.length > 0) {
+  if (!isLoading && services.length === 0) {
     return (
       <div className="w-full p-4 flex items-center justify-center h-full">
         <EmptyState title="No results found" description="Try again later" />

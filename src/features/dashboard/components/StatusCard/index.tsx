@@ -18,7 +18,7 @@ export function StatusCard({ service }: IStatusCardProps) {
       </CardHeader>
       <CardContent>
         <CardDescription className="text-xs text-muted-foreground">
-          Last updated at: {formatDate(service.lastUpdate)}
+          Updated {formatDate(service.lastUpdate)} ago
         </CardDescription>
       </CardContent>
     </Card>
