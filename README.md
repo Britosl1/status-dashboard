@@ -1,6 +1,10 @@
 # Status Dashboard
 
-Mock service health dashboard built with Next.js.
+Simple status dashboard built with Next.js.
+
+## Requirements
+
+- Node.js `>=20.9.0`
 
 ## Run
 
